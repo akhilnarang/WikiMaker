@@ -31,6 +31,6 @@ function wiki()
 {
   var file=DriveApp.getFiles();
   body.appendParagraph(file.next());
-  while(file.hasNext());
+  while(file.hasNext())
   body.appendParagraph(file.next());
 }
