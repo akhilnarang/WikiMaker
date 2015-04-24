@@ -29,8 +29,35 @@ function description()
 }
 function wiki()
 {
-  var file=DriveApp.getFiles();
-  body.appendParagraph(file.next());
-  while(file.hasNext())
-  body.appendParagraph(file.next());
+  var mimeType="application/vnd.google-apps.document"
+  var file=DriveApp.getFilesByType(mimeType);
+  var folder=file.next().getParents();
+    while(folder.hasNext())
+  {
+    var f=folder.next()
+    body.appendParagraph(f.getName())
+    var files=f.getFiles()
+    for (var i in files)
+    {   
+      var id=files[i].getId();
+      var file=DriveApp.getFileById(id)
+      var n=file.getName();
+      var wn=DocumentApp.getActiveDocument().getName();
+      var d=file.getDescription();
+      if(n!=wn&&d!="")
+      {
+        var nam=body.appendParagraph(n);
+        nam.setLinkUrl(file.getUrl());
+      }
+      if(n!=wn&&d!="")
+      {
+        body.appendParagraph(d)      
+      }
+      else if(n!=wn)
+      {
+        var nam=body.appendParagraph(n)
+        nam.setLinkUrl(file.getUrl())
+      }
+    }
+  }
 }
